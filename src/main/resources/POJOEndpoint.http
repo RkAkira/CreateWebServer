@@ -1,0 +1,13 @@
+### GET request to example server
+GET http://localhost:8000/test/
+
+
+###
+
+POST http://localhost:8000/test
+Accept: *
+
+{
+  "name": "Toto",
+  "type": "Dog"
+}
