@@ -19,14 +19,18 @@ import java.util.stream.Collectors;
 public class RequestBody<T> {
 
     HttpExchange exchange;
+    Class<T> clazz;
 
 
-
-
-    public T getBody() throws IOException {
-        byte[] bytes = exchange.getRequestBody().readAllBytes();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return (T) objectMapper.readValue(bytes, Object.class);
+    public T getBody()  {
+        try {
+            byte[] bytes = exchange.getRequestBody().readAllBytes();
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(bytes, clazz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     public Map<String, String> getHeaders() {

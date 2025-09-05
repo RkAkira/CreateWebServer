@@ -10,7 +10,6 @@ import com.sun.net.httpserver.HttpExchange;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +29,8 @@ public class POJOController {
         return ResponseBody.<List<POJO>>builder()
                 .body(pojos)
                 .exchange(exchange)
+                .headers(Map.of("Content-Type", "application/json", "Accept", "*"))
+                .statusCode(200)
                 .build();
     }
 
@@ -38,9 +39,9 @@ public class POJOController {
             return null;
         }
 
-        RequestBody<POJO> pojo = RequestBody.<POJO>builder().exchange(exchange).build();
+        RequestBody<POJO> pojo = RequestBody.<POJO>builder().clazz(POJO.class).exchange(exchange).build();
 
-        POJO pojoObject=pojo.getBody();
+        POJO pojoObject = pojo.getBody();
         ResponseBody.<POJO>builder()
                 .body(pojoObject)
                 .exchange(exchange)
@@ -50,14 +51,5 @@ public class POJOController {
         return pojoService.createPojo(pojoObject);
     }
 
-//    public void deletePOJO(HttpExchange exchange) throws IOException {
-//        if ( !exchange.getRequestMethod().equals(DELETE_METHOD)
-//                || !exchange.getRequestURI().getPath().equals("/test")) {
-//            return null;
-//        }
-//        List<POJO> pojos = pojoService.deletePojo(pojoName);
-//        exchange.sendResponseHeaders(204, -1);
-//
-//    }
 }
 

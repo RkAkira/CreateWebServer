@@ -16,24 +16,26 @@ public class ResponseBody<T> {
     Map<String, String> headers;
 
     @Builder
-    public ResponseBody(int code, T body, HttpExchange exchange, Map<String, String> headers) {
-        this.statusCode = code;
+    public ResponseBody(int statusCode, T body, HttpExchange exchange, Map<String, String> headers) {
+        this.statusCode = statusCode;
         this.body = body;
         this.exchange = exchange;
         this.headers = headers;
-        try {
-            build();
-        } catch (IOException _) {
-
-        }
+        build();
     }
 
-    private void build() throws IOException {
-        String bodyJson = RestControllerHelpers.serialize(body);
-        exchange.sendResponseHeaders(statusCode, bodyJson.length());
-        headers.entrySet().stream().forEach(e -> exchange.getResponseHeaders().add(e.getKey(), e.getValue()));
-        OutputStream responseBody = exchange.getResponseBody();
-        responseBody.write(bodyJson.getBytes());
-        responseBody.close();
+    private void build() {
+        try {
+            String bodyJson = RestControllerHelpers.serialize(body);
+            exchange.sendResponseHeaders(statusCode, bodyJson.length());
+            headers.entrySet().stream().forEach(e -> exchange.getResponseHeaders().add(e.getKey(), e.getValue()));
+            OutputStream responseBody = exchange.getResponseBody();
+            responseBody.write(bodyJson.getBytes());
+            responseBody.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
     }
 }

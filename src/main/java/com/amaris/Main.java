@@ -28,7 +28,8 @@ public class Main {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
 
-
+                pojoController.getPojo(exchange);
+                pojoController.createPOJO(exchange);
             }
         });
 

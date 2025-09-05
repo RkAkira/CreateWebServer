@@ -7,7 +7,7 @@ import java.util.List;
 
 public class POJOService {
 
-    private static ArrayList<POJO> pojos;
+    private static List<POJO> pojos = new ArrayList<>();
 
     public POJO createPojo(POJO pojo) {
         System.out.println("pojo = " + pojo);
