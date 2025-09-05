@@ -21,19 +21,22 @@ public class ResponseBody<T> {
         this.body = body;
         this.exchange = exchange;
         this.headers = headers;
-        try {
-            build();
-        } catch (IOException _) {
+        build();
 
-        }
     }
 
-    private void build() throws IOException {
-        String bodyJson = RestControllerHelpers.serialize(body);
-        exchange.sendResponseHeaders(statusCode, bodyJson.length());
-        headers.entrySet().stream().forEach(e -> exchange.getResponseHeaders().add(e.getKey(), e.getValue()));
-        OutputStream responseBody = exchange.getResponseBody();
-        responseBody.write(bodyJson.getBytes());
-        responseBody.close();
+    private void build() {
+        try {
+            String bodyJson = RestControllerHelpers.serialize(body);
+            exchange.sendResponseHeaders(statusCode, bodyJson.length());
+            if (headers != null) {
+                headers.forEach((key, value) -> exchange.getResponseHeaders().add(key, value));
+            }
+            OutputStream responseBody = exchange.getResponseBody();
+            responseBody.write(bodyJson.getBytes());
+            responseBody.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }
