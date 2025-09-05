@@ -30,7 +30,12 @@ public class AnnotationProcessor {
         }
         method.setAccessible(true);
         try {
-            method.invoke(controller, exchange); // equivalent a faire controller.method(exchange)
+            Object result = method.invoke(controller, exchange);// equivalent a faire controller.method(exchange)
+            ResponseBody.<Object>builder().body(result)
+                    .exchange(exchange)
+                    .headers(Map.of("Content-Type", "application/json", "Accept", "*"))
+                    .code(200)
+                    .build();
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
