@@ -37,6 +37,10 @@ public class POJOController {
         if (!RestControllerHelpers.requestMapping("/test", POST_METHOD, exchange)) {
             return null;
         }
+        RequestBody<POJO> pojo = RequestBody.<POJO>builder() // equivalent @RequestBody Pojo pojo
+                .exchange(exchange)
+                .clazz(POJO.class)
+                .build();
 
         RequestBody<POJO> pojo = RequestBody.<POJO>builder().exchange(exchange).build();
 
