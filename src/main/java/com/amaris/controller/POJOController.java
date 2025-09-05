@@ -1,8 +1,9 @@
 package com.amaris.controller;
 
+import com.amaris.annotation.RequestBody;
 import com.amaris.annotation.RequestMapping;
 import com.amaris.entity.POJO;
-import com.amaris.helper.RequestBody;
+import com.amaris.helper.Request;
 import com.amaris.helper.ResponseBody;
 import com.amaris.service.POJOService;
 import com.sun.net.httpserver.HttpExchange;
@@ -21,19 +22,14 @@ public class POJOController {
 
 
     @RequestMapping(path = "/test",method = GET_METHOD)
-    public List<POJO> getPojo(HttpExchange exchange) throws IOException {
+    public List<POJO> getPojo(HttpExchange exchange) {
         List<POJO> pojos = pojoService.getPojos();
         return pojos;
     }
 
     @RequestMapping(path = "/test",method = POST_METHOD)
-    public POJO createPOJO(HttpExchange exchange) throws IOException {
-        Request<POJO> pojo = Request.<POJO>builder() // equivalent @RequestBody Pojo pojo
-                .exchange(exchange)
-                .clazz(POJO.class)
-                .build();
-
-        POJO pojoObject=pojoService.createPojo(pojo.getBody());
+    public POJO createPOJO(@RequestBody POJO pojo) throws IOException {
+        POJO pojoObject=pojoService.createPojo(pojo);
         return pojoObject;
     }
 
