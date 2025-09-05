@@ -50,14 +50,6 @@ public class POJOController {
         return pojoService.createPojo(pojoObject);
     }
 
-//    public void deletePOJO(HttpExchange exchange) throws IOException {
-//        if ( !exchange.getRequestMethod().equals(DELETE_METHOD)
-//                || !exchange.getRequestURI().getPath().equals("/test")) {
-//            return null;
-//        }
-//        List<POJO> pojos = pojoService.deletePojo(pojoName);
-//        exchange.sendResponseHeaders(204, -1);
-//
-//    }
+
 }
 
