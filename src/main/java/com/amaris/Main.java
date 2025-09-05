@@ -16,8 +16,6 @@ public class Main {
     public final static String DELETE_METHOD = "DELETE";
 
     public static void main(String[] args) throws IOException {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 
         POJOService pojoService = new POJOService();
@@ -33,7 +31,6 @@ public class Main {
         });
 
         server.setExecutor(null);
-        // Start the server
         server.start();
         System.out.println("Server started on port 8000");
     }
