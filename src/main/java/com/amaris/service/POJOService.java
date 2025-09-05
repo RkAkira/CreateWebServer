@@ -10,7 +10,6 @@ public class POJOService {
     private static final List<POJO> pojos=new ArrayList<>();
 
     public POJO createPojo(POJO pojo) {
-        System.out.println("pojo = " + pojo);
         pojos.add(pojo);
         return pojo;
     }
@@ -20,7 +19,6 @@ public class POJOService {
     }
 
     public List<POJO> deletePojo(String pojoName) {
-
         return pojos;
     }
 }
