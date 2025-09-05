@@ -12,7 +12,7 @@ import java.util.Map;
 public class RestControllerHelpers {
 
 
-    public static boolean requestMapping(String path, String method, HttpExchange exchange) throws IOException {
+    public static boolean requestMapping(String path, String method, HttpExchange exchange){
         return exchange.getRequestMethod().equals(method)
                 && exchange.getRequestURI().getPath().equals(path);
     }
@@ -20,6 +20,6 @@ public class RestControllerHelpers {
 
     public static String serialize(Object object) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.convertValue(object, String.class);
+        return objectMapper.writeValueAsString(object);
     }
 }
