@@ -3,17 +3,16 @@ package com.amaris.controller;
 import com.amaris.annotation.RequestBody;
 import com.amaris.annotation.RequestMapping;
 import com.amaris.entity.POJO;
-import com.amaris.helper.Request;
-import com.amaris.helper.ResponseBody;
 import com.amaris.service.POJOService;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-import static com.amaris.Main.*;
+import static com.amaris.Main.GET_METHOD;
+import static com.amaris.Main.POST_METHOD;
+
 
 @RequiredArgsConstructor
 public class POJOController {
