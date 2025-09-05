@@ -16,6 +16,7 @@ public class POJOService {
     }
 
     public List<POJO> getPojos() {
+        System.out.println("pojos = " + pojos);
         return pojos;
     }
 

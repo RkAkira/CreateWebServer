@@ -1,9 +1,11 @@
 package com.amaris;
 
+import com.amaris.annotation.AnnotationProcessor;
 import com.amaris.controller.POJOController;
 import com.amaris.service.POJOService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import lombok.SneakyThrows;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -22,19 +24,14 @@ public class Main {
 
         POJOService pojoService = new POJOService();
         POJOController pojoController = new POJOController(pojoService);
+        AnnotationProcessor annotationProcessor = AnnotationProcessor.builder().pojoController(pojoController).build();
 
-        // Define a context that serves files from the current directory
-        server.createContext("/test", new com.sun.net.httpserver.HttpHandler() {
-            @Override
-            public void handle(HttpExchange exchange) throws IOException {
-
-                pojoController.getPojo(exchange);
-                pojoController.createPOJO(exchange);
-            }
-        });
-
+//        server.createContext("/test", exchange -> {
+//            pojoController.getPojo(exchange);
+//            pojoController.createPOJO(exchange);
+//        });
+        server.createContext("/test", annotationProcessor::getAnnotationMethod);
         server.setExecutor(null);
-        // Start the server
         server.start();
         System.out.println("Server started on port 8000");
     }

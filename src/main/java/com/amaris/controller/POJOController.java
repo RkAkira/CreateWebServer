@@ -1,15 +1,14 @@
 package com.amaris.controller;
 
+import com.amaris.annotation.RequestMapping;
 import com.amaris.entity.POJO;
-import com.amaris.helper.RequestBody;
+import com.amaris.helper.Request;
 import com.amaris.helper.ResponseBody;
 import com.amaris.helper.RestControllerHelpers;
 import com.amaris.service.POJOService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.RequiredArgsConstructor;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,35 +19,24 @@ public class POJOController {
 
     private final POJOService pojoService;
 
-    public ResponseBody<List<POJO>> getPojo(HttpExchange exchange) throws IOException {
 
-        if (!RestControllerHelpers.requestMapping("/test", GET_METHOD, exchange)) {
-            return null;
-        }
-        List<POJO> pojos = pojoService.getPojos();
-        return ResponseBody.<List<POJO>>builder()
-                .body(pojos)
-                .exchange(exchange)
-                .headers(Map.of("Content-Type", "application/json", "Accept", "*"))
-                .statusCode(200)
-                .build();
+    @RequestMapping(path = "/test", method = GET_METHOD)
+    public List<POJO> getPojo() {
+
+
+        return pojoService.getPojos();
     }
 
-    public POJO createPOJO(HttpExchange exchange) throws IOException {
-        if (!RestControllerHelpers.requestMapping("/test", POST_METHOD, exchange)) {
-            return null;
-        }
 
-        RequestBody<POJO> pojo = RequestBody.<POJO>builder().clazz(POJO.class).exchange(exchange).build();
+    @RequestMapping(path = "/test", method = POST_METHOD)
+    public POJO createPOJO(HttpExchange exchange) {
 
-        POJO pojoObject = pojo.getBody();
-        ResponseBody.<POJO>builder()
-                .body(pojoObject)
+        Request<POJO> pojo = Request.<POJO>builder()
+                .clazz(POJO.class)
                 .exchange(exchange)
-                .headers(Map.of("Content-Type", "application/json", "Accept", "*"))
                 .build();
 
-        return pojoService.createPojo(pojoObject);
+        return pojoService.createPojo(pojo.getBody());
     }
 
 }
